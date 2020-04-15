@@ -1,12 +1,12 @@
 <template>
   <div>
       <div class="form">
-        <el-form  :rules="rules" label-width="15px">
+        <el-form :model="LoginMessage" :rules="rules" label-width="15px">
             <el-form-item  prop="email" label=" ">
-                <el-input v-model="email" placeholder="请输入邮箱"></el-input>
+                <el-input v-model="LoginMessage.email" placeholder="请输入邮箱"></el-input>
             </el-form-item>
             <el-form-item  prop="password" label=' '>
-                <el-input v-model="password" placeholder="请输入密码"></el-input>
+                <el-input v-model="LoginMessage.password" placeholder="请输入密码"></el-input>
             </el-form-item>
             <el-checkbox label="记住密码" name="type"></el-checkbox>
         </el-form>
@@ -25,8 +25,10 @@ export default {
   name: 'LoginForm',
   data(){
       return{
-          email:'',
-          password:'',
+          LoginMessage:{
+            email:'',
+            password:''
+          },
           rules:{
               email:[
                   { required: true, message: '请输入邮箱地址', trigger: 'blur' },

@@ -1,24 +1,24 @@
 <template>
   <div>
       <div class="form">
-        <el-form  :rules="rules" label-width="15px">
+        <el-form :model="RegisterMessage" :rules="rules" label-width="15px">
             <el-form-item  prop="email" label=" ">
-                <el-input v-model="email" placeholder="邮箱" size="large"></el-input>
+                <el-input v-model="RegisterMessage.email" placeholder="邮箱" size="large"></el-input>
             </el-form-item>
             <el-form-item  prop="password" label=' '>
-                <el-input v-model="password" placeholder="密码"></el-input>
+                <el-input v-model="RegisterMessage.password" placeholder="密码"></el-input>
             </el-form-item>
             <el-form-item  prop="confirmPassword" label=' '>
-                <el-input v-model="confirmPassword" placeholder="确认密码"></el-input>
+                <el-input v-model="RegisterMessage.confirmPassword" placeholder="确认密码"></el-input>
             </el-form-item>
             <el-form-item  prop="name" label=" ">
-                <el-input v-model="name" placeholder="姓名" size="large"></el-input>
+                <el-input v-model="RegisterMessage.name" placeholder="姓名" size="large"></el-input>
             </el-form-item>
             <el-form-item  prop="id" label=" ">
-                <el-input v-model="email" placeholder="学号" size="large"></el-input>
+                <el-input v-model="RegisterMessage.id" placeholder="学号" size="large"></el-input>
             </el-form-item>
             <el-form-item  prop="group" label=" ">
-                <el-select v-model="group" placeholder="请选择">
+                <el-select v-model="RegisterMessage.group" placeholder="请选择">
                     <el-option
                     v-for="item in options"
                     :key="item.value"
@@ -28,7 +28,7 @@
                 </el-select>
             </el-form-item>
         </el-form>
-        <el-button type="primary" round>注册</el-button>
+        <el-button type="primary" round @click="submit">注册</el-button>
     </div>
   </div>
 </template>
@@ -41,12 +41,14 @@ export default {
   name: 'HelloWorld',
   data(){
       return{
-          email:'',
-          password:'',
-          confirmPassword:'',
-          name:'',
-          id:'',
-          group:'',
+          RegisterMessage:{
+                email:'',
+                password:'',
+                confirmPassword:'',
+                name:'',
+                id:'',
+                group:''
+            },
           options:[
               {
                 value: '大前端',
@@ -85,6 +87,11 @@ export default {
         }
       }
       
+  },
+  methods:{
+      submit(){
+          console.log("注册")
+      }
   }
 }
 </script>

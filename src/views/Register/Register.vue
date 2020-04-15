@@ -50,28 +50,24 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .register{
-  width: 1200px;
+  width: 100%;
   margin: 0 auto;
 }
 .img1{
   width: 430px;
   height: 650px;
+  position: fixed;
 }
 .el-aside {
   overflow: hidden;
     background: #F8F8F9;
     height: 600px;
-    position: fixed;
-    top: 0;
-    left: 0;
 }
 .el-header{
   display: flex;
   justify-content:space-around;
   align-items: center;
   background: #F8F8F9;
-  float: right;
-  margin-left: 35%;
 }
 a{
   text-decoration: none;
@@ -79,14 +75,11 @@ a{
 }
 .img2{
   width: 120px;
-  margin-left: 32%;
 }
 .unshow{
   display: none;
 }
 .el-main {
     background: #F8F8F9;
-    float: right;
-    margin-left: 35%;
 }
 </style>
