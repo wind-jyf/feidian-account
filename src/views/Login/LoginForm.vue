@@ -12,7 +12,7 @@
         </el-form>
     </div>
     <div class="submit">
-        <el-button type="primary" round  @click="submit">登录</el-button>
+        <el-button type="primary" round  @click="submit" @keyup.enter="submit">登录</el-button>
     </div>
   </div>
 </template>

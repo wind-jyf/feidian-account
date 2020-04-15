@@ -28,7 +28,7 @@
                 </el-select>
             </el-form-item>
         </el-form>
-        <el-button type="primary" round @click="submit">注册</el-button>
+        <el-button type="primary" round @click="submit" @keyup.enter="submit">注册</el-button>
     </div>
   </div>
 </template>

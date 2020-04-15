@@ -20,17 +20,17 @@
          <span class="divider-span">|</span>
          <span>成员档案</span>
      </div>
-     <div class="member">
-         <el-card v-for="(item,index) in list" :key="index" shadow="hover">
-             <div class="img">
+     <div class="member" >
+         <el-card  shadow="hover" v-for="(item,index) in list" :key="index" @click.native="person(index)">
+             <div class="img"  >
                  <img src="">
              </div>
              <p>江羽凤</p>
              <p>2367770337@qq.com</p>
              <el-button type="text" class="red" :class="{'btn':btn}" @click="Delete">删除</el-button>
              <div :class="{'btn':btnAudit}">
-                 <el-link type="success" :underline="false">同意</el-link>
-                 <el-link type="warning" :underline="false">拒绝</el-link>
+                 <el-link type="success" :underline="false" @click="agree">同意</el-link>
+                 <el-link type="warning" :underline="false" @click="disagree">拒绝</el-link>
              </div>
          </el-card>
      </div>
@@ -63,8 +63,17 @@ export default {
       }
   },
   methods:{
+      person(){
+          this.$router.push('/person');
+      },
       Delete(){
           console.log("删除")
+      },
+      agree(){
+          console.log("同意")
+      },
+      disagree(){
+          console.log("拒绝")
       }
   }
 }
