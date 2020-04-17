@@ -6,10 +6,10 @@
                 <el-input v-model="RegisterMessage.email" placeholder="邮箱" size="large"></el-input>
             </el-form-item>
             <el-form-item  prop="password" label=' '>
-                <el-input v-model="RegisterMessage.password" placeholder="密码"></el-input>
+                <el-input v-model="RegisterMessage.password" placeholder="密码" show-password></el-input>
             </el-form-item>
             <el-form-item  prop="confirmPassword" label=' '>
-                <el-input v-model="RegisterMessage.confirmPassword" placeholder="确认密码"></el-input>
+                <el-input v-model="RegisterMessage.confirmPassword" placeholder="确认密码" show-password></el-input>
             </el-form-item>
             <el-form-item  prop="name" label=" ">
                 <el-input v-model="RegisterMessage.name" placeholder="姓名" size="large"></el-input>
@@ -37,8 +37,8 @@
 import Vue from 'vue';
 import {Form,FormItem,Input,Button,Select} from 'element-ui';
 Vue.use(Form).use(FormItem).use(Input).use(Button).use(Select)
+import {sendRegister} from '../../network/api'
 export default {
-  name: 'HelloWorld',
   data(){
       return{
           RegisterMessage:{
@@ -90,7 +90,17 @@ export default {
   },
   methods:{
       submit(){
-          console.log("注册")
+          if(this.RegisterMessage.email!=''&&this.RegisterMessage.password!=''&&this.RegisterMessage.confirmPassword!=''&&this.RegisterMessage.name!=''&&this.RegisterMessage.id!=''&&this.RegisterMessage.group!=''&&this.RegisterMessage.password==this.RegisterMessage.confirmPassword){
+              let data = this.RegisterMessage;
+              console.log(data);
+              sendRegister(data).then(res=>{
+                  console.log(res);
+                  this.$message.success('注册成功');
+                  this.$router.push('/login');
+              })
+          }else{
+              this.$message.error('有信息填写错误');
+          }
       }
   }
 }

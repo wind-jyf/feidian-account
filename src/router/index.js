@@ -48,9 +48,9 @@ const router = new Router({
 })
 
 
-router.beforeEach((from,to,next)=>{
-    window.document.title = from.meta.title;
-    if(to.path=='/my'){
+router.beforeEach((to,from,next)=>{
+    document.title = to.meta.title;
+    if(to.path=='/index'){
         let token=localStorage.getItem('Authorization');
         if(token===null||token===''){
           next('/login')

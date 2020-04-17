@@ -6,13 +6,13 @@
                 <el-input v-model="LoginMessage.email" placeholder="请输入邮箱"></el-input>
             </el-form-item>
             <el-form-item  prop="password" label=' '>
-                <el-input v-model="LoginMessage.password" placeholder="请输入密码"></el-input>
+                <el-input v-model="LoginMessage.password" placeholder="请输入密码" show-password></el-input>
             </el-form-item>
             <el-checkbox label="记住密码" name="type"></el-checkbox>
         </el-form>
     </div>
     <div class="submit">
-        <el-button type="primary" round  @click="submit" @keyup.enter="submit">登录</el-button>
+        <el-button type="primary" round  @click="Submit" @keyup.enter="Submit">登录</el-button>
     </div>
   </div>
 </template>
@@ -20,7 +20,8 @@
 <script>
 import Vue from 'vue';
 import {Form,FormItem,Input,Button,checkbox} from 'element-ui';
-Vue.use(Form).use(FormItem).use(Input).use(Button).use(checkbox)
+Vue.use(Form).use(FormItem).use(Input).use(Button).use(checkbox);
+import {SendLogin} from '../../network/api'
 export default {
   name: 'LoginForm',
   data(){
@@ -41,8 +42,24 @@ export default {
     }
   },
   methods:{
-      submit(){
-          alert('登录')
+      Submit(){
+          if(this.LoginMessage.email!=''&&this.LoginMessage.password!=''){
+              SendLogin().then(res=>{
+                  let results = res.data.users.filter(item=>{
+                      return item.email == this.LoginMessage.email && item.password == this.LoginMessage.password;
+                  })
+                  if(results!=''&&results.length!=0){
+                      this.$store.commit('changeLogin',{
+                          user:'token'
+                      })
+                      this.$router.push('/index');
+                  }else{
+                      this.$message.error("账号或密码错误")
+                  }
+              })
+          }else{
+              this.$message.error("邮箱或密码不能为空")
+          }
       }
   }
 }

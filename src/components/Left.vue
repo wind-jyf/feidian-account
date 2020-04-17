@@ -39,7 +39,7 @@ export default {
       this.$router.go(-1);
     },
     person(){
-      console.log("转入个人中心页面")
+      this.$router.push('/person')
     },
     audit(){
       this.$router.push('/audit');
