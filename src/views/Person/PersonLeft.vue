@@ -4,8 +4,12 @@
       <div class="line"></div>
       <p>2367770337@qq.com</p>
       <div class="line"></div>
-      <el-button  type="primary" @click="change" :class="{'NotMy':NotMy}">修改资料</el-button>
-      <el-button  type="success" @click="back">返回上级</el-button>
+      <div>
+      <el-button  type="primary"  @click="change" :class="{'NotMy':NotMy}">修改资料</el-button>
+      </div>
+      <div>
+      <el-button  type="primary" plain  @click="back">返回上级</el-button>
+      </div>
   </div>
 </template>
 
@@ -16,11 +20,12 @@ Vue.use(Button);
 export default {
   name: 'PersonLeft',
   props: {
-    NotMy:Boolean
+    NotMy:Boolean,
+    ListMessage:Array
   },
   methods:{
       change(){
-          this.$router.push('/change');
+          this.$router.push({path:'/change',query:{email:this.$store.state.email}});
       },
       back(){
           this.$router.go(-1);
@@ -49,7 +54,7 @@ p{
     border-bottom: 1px dashed #DBDBDB;
 }
 .el-button{
-    margin: 8% 0 0 0;
+    margin: 20% 0 0 0;
 }
 .NotMy{
     display: none;

@@ -17,7 +17,17 @@ import PersonRight from './PersonRight'
 export default {
   data(){
     return{
-      NotMy:false
+      NotMy:false,
+      ListMessage:[]
+    }
+  },
+  created(){
+    let email = this.$route.query.email;
+    if(email == this.$store.state.email){ // 判断进入的person页面是否是自己的
+      this.NotMy = false; //是自己
+      this.$message.error("请完善相关信息")
+    }else{
+      this.NotMy = true;
     }
   },
   components:{

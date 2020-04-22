@@ -5,7 +5,7 @@
       :default-active="activeIndex"
       background-color="#545c64"
       text-color="#fff"
-      active-text-color="#ffd04b">
+      active-text-color="#409EFF">
       <el-menu-item index="1">
         <span slot="title">基本信息</span>
       </el-menu-item>

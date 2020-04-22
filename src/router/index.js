@@ -52,7 +52,8 @@ router.beforeEach((to,from,next)=>{
     document.title = to.meta.title;
     if(to.path=='/index'){
         let token=localStorage.getItem('Authorization');
-        if(token===null||token===''){
+        if(token===null||token==''||token==undefined){
+            console.log(token);
           next('/login')
         }else{
           next();
@@ -62,5 +63,15 @@ router.beforeEach((to,from,next)=>{
       }
 })
 
+/* 路由异常错误处理，尝试解析一个异步组件时发生错误，重新渲染目标页面 */
+router.onError((error) => {
+    const pattern = /Loading chunk (\d)+ failed/g;
+    const isChunkLoadFailed = error.message.match(pattern);
+    const targetPath = router.history.pending.fullPath;
+    if (isChunkLoadFailed) {
+      router.replace(targetPath);
+    }
+  });
+  
 
 export default router

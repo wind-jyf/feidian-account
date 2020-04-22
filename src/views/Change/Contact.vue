@@ -5,7 +5,7 @@
                 <el-input v-model="Contact.qq"></el-input>
             </el-form-item>
             <el-form-item  prop="email" label='邮箱'>
-                <el-input v-model="Contact.email"></el-input>
+                <el-input v-model="Contact.email" disabled></el-input>
             </el-form-item>
         </el-form>
   </div>

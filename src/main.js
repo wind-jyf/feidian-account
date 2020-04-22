@@ -12,12 +12,5 @@ Vue.config.productionTip = false
 new Vue({
   router,
   store,
-  /*
-  created(){
-    if(localStorage.getItem('Authorization')){
-      localStorage.clear();
-    }
-  },
-  */
   render: h => h(App),
 }).$mount('#app')

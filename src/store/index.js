@@ -7,7 +7,7 @@ const store = new Vuex.Store({
   state: {
     // 存储token
     Authorization: localStorage.getItem('Authorization') ? localStorage.getItem('Authorization') : '',
-    email:''
+    email:localStorage.getItem('loginMess') ? localStorage.getItem('loginMess') : ''
   },
  
   mutations: {
@@ -17,7 +17,8 @@ const store = new Vuex.Store({
       localStorage.setItem('Authorization', user.Authorization);
     },
     changeEmail(state,user){
-      state.email = user.email
+      state.email = user.email;
+      localStorage.setItem('loginMess', user.email);
     }
   }
 });

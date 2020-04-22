@@ -3,27 +3,28 @@
       <div class="right">
      <el-input
         placeholder="请输入内容"
-        prefix-icon="el-icon-search"
-        v-model="search">
+        v-model="search"
+        @keyup.enter.native="Search">
+        <i slot="prefix" class="el-input__icon el-icon-search" @click.stop="Search"></i>
      </el-input>
      <div class="divider">
          <span class="divider-span">|</span>
          <span>关键词</span>
      </div>
      <div class="tag">
-         <el-button type="success" plain>大前端</el-button>
-         <el-button type="success" plain>Java</el-button>
-         <el-button type="success" plain>iOS</el-button>
-         <el-button type="success" plain>信息安全</el-button>
+         <el-button type="primary" plain>大前端</el-button>
+         <el-button type="primary" plain>Java</el-button>
+         <el-button type="primary" plain>iOS</el-button>
+         <el-button type="primary" plain>信息安全</el-button>
      </div>
      <div class="divider">
          <span class="divider-span">|</span>
          <span>成员档案</span>
      </div>
      <div class="member" >
-         <el-card  shadow="hover" v-for="(item,index) in list" :key="index" @click.native="person(index)">
-             <div class="img"  >
-                 <img src="">
+         <el-card  shadow="hover" v-for="(item,index) in Currentlist" :key="index" @click.native="person(index)">
+             <div class="img">
+                <el-avatar shape="square" :size="90" :src="squareUrl"></el-avatar>
              </div>
              <p>江羽凤</p>
              <p>2367770337@qq.com</p>
@@ -39,7 +40,11 @@
          <el-pagination
             background
             layout="prev, pager, next"
-            :total="list.length*10">
+            :total="Math.ceil(list.length/9)*10"
+            @current-change='change'
+            @pre-click='change'
+            @next0click='change'
+            >
          </el-pagination>
      </div>
      </div>
@@ -59,12 +64,14 @@ export default {
   },
   data(){
       return{
-          search:""
+          search:"",
+          Currentlist:[],
+          squareUrl: "https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png"
       }
   },
   methods:{
       person(){
-          this.$router.push('/person');
+          this.$router.push({path:'/person',query:{email:'2367770337@qq.com'}});
       },
       Delete(){
           console.log("删除")
@@ -74,7 +81,16 @@ export default {
       },
       disagree(){
           console.log("拒绝")
+      },
+      change(num){
+          this.Currentlist = this.list.slice((num-1)*9,num*9);
+      },
+      Search(){
+          console.log(this.search);
       }
+  },
+  created(){
+      this.Currentlist = this.list.slice(0,9);
   }
 }
 </script>
@@ -96,11 +112,17 @@ export default {
 .el-input{
     margin-top: 5%;
 }
+i{
+    cursor: pointer;
+}
+i:hover{
+    color: coral;
+}
 .divider{
     margin-top: 3%;
 }
 .divider-span{
-    color: #41BAA8;
+    color: #409EFF;
     font-weight: bold;
 }
 span{
@@ -123,15 +145,14 @@ span{
 }
 .el-card{
     width: 25%;
-    height: 220px;
+    height: 210px;
     margin-top: 5%;
     text-align: center;
     cursor: pointer;
 }
 .img{
-    background: red;
     width: 80%;
-    height: 100px;
+    height: 90px;
     margin: 0 auto;
 }
 .member p{

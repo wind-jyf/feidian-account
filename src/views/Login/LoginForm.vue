@@ -12,7 +12,7 @@
         </el-form>
     </div>
     <div class="submit">
-        <el-button type="primary" round  @click="Submit" @keyup.enter="Submit">登录</el-button>
+        <el-button type="primary" round  @click="Submit" @keyup.enter.native="Submit">登录</el-button>
     </div>
   </div>
 </template>
@@ -45,12 +45,16 @@ export default {
       Submit(){
           if(this.LoginMessage.email!=''&&this.LoginMessage.password!=''){
               SendLogin().then(res=>{
+                  console.log(res);
                   let results = res.data.users.filter(item=>{
                       return item.email == this.LoginMessage.email && item.password == this.LoginMessage.password;
                   })
                   if(results!=''&&results.length!=0){
                       this.$store.commit('changeLogin',{
-                          user:'token'
+                          Authorization:'token'
+                      })
+                      this.$store.commit('changeEmail',{
+                          email:this.LoginMessage.email
                       })
                       this.$router.push('/index');
                   }else{
@@ -60,7 +64,20 @@ export default {
           }else{
               this.$message.error("邮箱或密码不能为空")
           }
+      },
+      keyEnter(){
+      //登录添加键盘事件,注意,不能直接在焦点事件上添加回车
+      let that = this;
+      document.onkeydown = function () {
+        let key = window.event.keyCode;
+        if (key === 13){
+          that.Submit();//方法
+        }
       }
+  }
+  },
+  created(){
+      this.keyEnter();
   }
 }
 </script>

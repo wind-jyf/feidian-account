@@ -74,6 +74,7 @@ a{
   font-size: 20px;
 }
 .img2{
+  margin-left: 33%;
   width: 120px;
 }
 .unshow{

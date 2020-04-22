@@ -28,7 +28,7 @@
                 </el-select>
             </el-form-item>
         </el-form>
-        <el-button type="primary" round @click="submit" @keyup.enter="submit">注册</el-button>
+        <el-button type="primary" round @click="submit">注册</el-button>
     </div>
   </div>
 </template>
@@ -101,7 +101,20 @@ export default {
           }else{
               this.$message.error('有信息填写错误');
           }
+      },
+      keyEnter(){
+      //登录添加键盘事件,注意,不能直接在焦点事件上添加回车
+      let that = this;
+      document.onkeydown = function () {
+        let key = window.event.keyCode;
+        if (key === 13){
+          that.submit();//方法
+        }
       }
+    }
+  },
+  created(){
+      this.keyEnter();
   }
 }
 </script>

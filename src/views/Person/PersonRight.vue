@@ -22,9 +22,9 @@
 
 <script>
 export default {
-  name: 'HelloWorld',
+  name: 'PersonRight',
   props: {
-    
+    ListMessage:Array
   }
 }
 </script>

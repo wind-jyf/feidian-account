@@ -17,13 +17,19 @@ import {container} from 'element-ui'
 Vue.use(container)
 import Left from '../../components/Left'
 import Right from '../../components/Right'
+import {SendLogin} from '../../network/api'
 export default {
   data(){
     return{
-      src:"../../assets/ico.png",
+      src:require("../../assets/logo.png"),
       btn:true,
-      list:[1,1,1,1,1,1]
+      list:[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
     }
+  },
+  created(){
+    SendLogin().then(res=>{
+      console.log(res);
+    })
   },
   components:{
     Left,

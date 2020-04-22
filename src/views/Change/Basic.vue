@@ -19,11 +19,11 @@
             <el-form-item  prop="birth" label='出生日期'>
                 <el-input v-model="Basic.petName" ></el-input>
             </el-form-item>
-            <el-form-item  prop="id" label='学号'>
-                <el-input v-model="Basic.id" ></el-input>
+            <el-form-item  prop="id" label='学号' >
+                <el-input v-model="Basic.id" disabled></el-input>
             </el-form-item>
             <el-form-item  prop="group" label='组别'>
-                <el-input v-model="Basic.group" ></el-input>
+                <el-input v-model="Basic.group" disabled></el-input>
             </el-form-item>
         </el-form>
   </div>

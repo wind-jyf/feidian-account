@@ -14,8 +14,8 @@
           <el-button type="primary" round size="medium" @click="backup" :class="{'back':back}">返回上级</el-button>
           <el-button type="primary" round size="medium" @click="person" :class="{'center':centerbtn}">{{center}}</el-button>
           <el-button-group :class="{'btn':btn}">
-            <el-button round @click="audit">审核新成员</el-button>
-            <el-button  round @click="output">输出成员Excel</el-button>
+            <el-button type="primary" plain round @click="audit">审核新成员</el-button>
+            <el-button type="primary" plain round @click="output">输出成员Excel</el-button>
           </el-button-group>
         </div>
         </div>
@@ -39,7 +39,7 @@ export default {
       this.$router.go(-1);
     },
     person(){
-      this.$router.push('/person')
+      this.$router.push({path:'/person',query:{email:this.$store.state.email}})
     },
     audit(){
       this.$router.push('/audit');
@@ -65,6 +65,7 @@ export default {
   align-items: center;
 }
 .img{
+  overflow: hidden;
   width: 80px;
   height: 80px;
   background: white;
@@ -76,7 +77,8 @@ export default {
   margin-top: 7%;
 }
 img{
-  width: 80%;
+  width: 80px;
+  height: 80px;
 }
 h1{
   margin-top: 7%;

@@ -20,9 +20,9 @@ import Right from '../../components/Right'
 export default {
   data(){
     return{
-      src:"../../assets/ico.png",
+      src:require("../../assets/tianyi.jpg"),
       btn:false,
-      list:[1,1,1,1,1,1]
+      list:[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
     }
   },
   components:{
