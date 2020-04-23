@@ -1,8 +1,8 @@
 <template>
   <div class="left">
-      <p>江羽凤</p>
+      <p>{{ListMessage.firstName+ListMessage.lastName}}</p>
       <div class="line"></div>
-      <p>2367770337@qq.com</p>
+      <p>{{ListMessage.email}}</p>
       <div class="line"></div>
       <div>
       <el-button  type="primary"  @click="change" :class="{'NotMy':NotMy}">修改资料</el-button>
@@ -14,14 +14,11 @@
 </template>
 
 <script>
-import Vue from 'vue';
-import {Button} from 'element-ui'
-Vue.use(Button);
 export default {
   name: 'PersonLeft',
   props: {
     NotMy:Boolean,
-    ListMessage:Array
+    ListMessage:Object
   },
   methods:{
       change(){

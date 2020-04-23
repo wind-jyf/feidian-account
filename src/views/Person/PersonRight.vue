@@ -1,21 +1,21 @@
 <template>
   <div class="right">
       <p style="font-size:30px;font-weight:lighter">大前端</p>
-      <p>昵称：</p>
+      <p>昵称：{{ListMessage.nickname}}</p>
       <div class="line"></div>
-      <p>性别：</p>
+      <p>性别：{{ListMessage.sex}}</p>
       <div class="line"></div>
-      <p>生日：</p>
+      <p>生日：{{ListMessage.birthday}}</p>
       <div class="line"></div>
-      <p>年级：</p>
+      <p>年级：{{ListMessage.grade}}</p>
       <div class="line"></div>
-      <p>大学：</p>
+      <p>大学：{{ListMessage.school}}</p>
       <div class="line"></div>
-      <p>加入时间：</p>
+      <p>加入时间：{{ListMessage.inTime}}</p>
       <div class="line"></div>
-      <p>QQ：</p>
+      <p>QQ：{{ListMessage.qq}}</p>
       <div class="line"></div>
-      <p>管理员：</p>
+      <p>管理员：{{ListMessage.admin}}</p>
       <div class="line"></div>
   </div>
 </template>
@@ -24,7 +24,7 @@
 export default {
   name: 'PersonRight',
   props: {
-    ListMessage:Array
+    ListMessage:Object
   }
 }
 </script>

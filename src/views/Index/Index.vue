@@ -12,23 +12,21 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import {container} from 'element-ui'
-Vue.use(container)
+
 import Left from '../../components/Left'
 import Right from '../../components/Right'
-import {SendLogin} from '../../network/api'
+import {GetAll} from '../../network/api'
 export default {
   data(){
     return{
       src:require("../../assets/logo.png"),
       btn:true,
-      list:[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+      list:[1,1,1,1,1,1,1,1]
     }
   },
   created(){
-    SendLogin().then(res=>{
-      console.log(res);
+    GetAll().then(res=>{  //获得所有沸点成员
+      this.list = res.data.result;
     })
   },
   components:{

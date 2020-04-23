@@ -37,13 +37,11 @@
 </template>
 
 <script>
-import Vue from 'vue';
-import {Button,Upload} from 'element-ui'
-Vue.use(Button).use(Upload);
 import LeftNavBar from './LeftNavBar'
 import Basic from './Basic'
 import Position from './Position'
 import Contact from './Contact'
+import {byemail,changeMessage} from '../../network/api'
 export default {
   data(){
     return{
@@ -70,22 +68,50 @@ export default {
         console.log(file);
         console.log(fd);
       },
-      updateData(data){
-        this.show = this.show.map(()=>{return false})
-        this.transitionName = this.transitionName.map(()=>'');
-        this.$set(this.show,data-1,true);
-        this.$set(this.transitionName,data-1,'vux-pop-in');
-      },
-      updateBasic(data){
-        console.log(data);
+      updateData(data){ //获得当前左部导航栏的索引
+        this.show = this.show.map(()=>{return false})//首先设置每个导航栏内容均不显示
+        this.transitionName = this.transitionName.map(()=>'');//将每个transitionName设为空
+        this.$set(this.show,data-1,true);//通过索引设置当前导航内容显示
+        this.$set(this.transitionName,data-1,'vux-pop-in');//设置动画
       },
       save(){
-        const basic = this.$refs.Basic.$data.Basic;
+        //拿到每个子组件中的表单数据
+        const basic = this.$refs.Basic.$data.Basic; 
         const position = this.$refs.Contact.$data.Contact;
         const contact = this.$refs.Position.$data.Position;
-        this.message = Object.assign(basic,position,contact);
-        console.log(this.message);
+
+        //此时的message是后台传来的，如果此时有修改，便在原有基础上进行修改
+        for(let key in basic){
+          if(basic[key]!=''||basic[key]!=''){    //判断表单中那些属性有值，若有，则更改原后台发送来的表单中的值
+            this.message[key] = basic[key];
+          }
+        }
+        for(let key in position){
+          if(position[key]!=''||position[key]!=''){
+            this.message[key] = position[key];
+          }
+        }
+        for(let key in contact){
+          if(contact[key]!=''||contact[key]!=''){
+            this.message[key] = contact[key];
+          }
+        }
+        //this.message = Object.assign(basic,position,contact);
+        let data = this.message;
+        //向后台提交修改后的新表单
+        changeMessage(data).then(res=>{
+          console.log(res);
+        })
       }
+    },
+    created(){
+      let data = {
+        email:'222@qq.com'
+      }
+      byemail(data).then(res=>{  //通过邮箱获得此用户的所有信息
+        this.message = res.data.result;
+        console.log(res);
+      })
     },
   components:{
     LeftNavBar,
@@ -101,7 +127,7 @@ export default {
 @import url(../../style/common.css);
 .change{
   width: 900px;
-  height: 700px;
+  height: 750px;
   background: #F8F8F9;
   margin: 0 auto;
   padding-left: 10%;
@@ -137,6 +163,7 @@ export default {
   padding-top: 7%;
 }
 .right{
+  height: 650px;
   padding-left: 5%;
   padding-right: 5%;
   width: 60%;

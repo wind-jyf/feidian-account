@@ -5,7 +5,7 @@
         <left :src="src" :btn="btn" :back="!btn" :centerbtn="btn"/>
       </el-aside>
       <el-main>
-        <right :btn="btn" :btnAudit="!btn" :list="list"/>
+        <right :btn="btn" :btnAudit="!btn" :list="list" :updateAudit="updateAudit"/>
       </el-main>
     </el-container>
   </div>
@@ -17,13 +17,24 @@ import {container} from 'element-ui'
 Vue.use(container)
 import Left from '../../components/Left'
 import Right from '../../components/Right'
+import {GetAudit} from '../../network/api'
 export default {
   data(){
     return{
       src:require("../../assets/tianyi.jpg"),
       btn:true,
-      list:[1]
+      list:[]
     }
+  },
+  methods:{
+    updateAudit(){
+      GetAudit().then(res=>{ //获得所有需要审核的成员
+      this.list = res.data.result;
+    })
+    }
+  },
+  created(){
+    this.updateAudit();
   },
   components:{
     Left,

@@ -12,15 +12,12 @@
         </el-form>
     </div>
     <div class="submit">
-        <el-button type="primary" round  @click="Submit" @keyup.enter.native="Submit">登录</el-button>
+        <el-button type="primary" round  @click="Submit">登录</el-button>
     </div>
   </div>
 </template>
 
 <script>
-import Vue from 'vue';
-import {Form,FormItem,Input,Button,checkbox} from 'element-ui';
-Vue.use(Form).use(FormItem).use(Input).use(Button).use(checkbox);
 import {SendLogin} from '../../network/api'
 export default {
   name: 'LoginForm',
@@ -43,23 +40,39 @@ export default {
   },
   methods:{
       Submit(){
+          this.$store.commit('changeisAddHeader',{
+              isAddHeader:false    //此时拦截器不需要拦截
+          })
           if(this.LoginMessage.email!=''&&this.LoginMessage.password!=''){
-              SendLogin().then(res=>{
+              let data = {
+                  email:this.LoginMessage.email,
+                  password:this.LoginMessage.password
+              }
+              console.log(data);
+              SendLogin(data).then(res=>{
                   console.log(res);
-                  let results = res.data.users.filter(item=>{
-                      return item.email == this.LoginMessage.email && item.password == this.LoginMessage.password;
-                  })
-                  if(results!=''&&results.length!=0){
-                      this.$store.commit('changeLogin',{
-                          Authorization:'token'
+                 if(res.data.status === 1){//说明登录成功
+                     console.log(res.headers.authorization);//拿到token
+                     this.$store.commit('changeLogin',{    //将token存到vuex中
+                          Authorization:res.headers.authorization
                       })
                       this.$store.commit('changeEmail',{
-                          email:this.LoginMessage.email
+                          email:this.LoginMessage.email  //存储用户邮箱
                       })
-                      this.$router.push('/index');
-                  }else{
-                      this.$message.error("账号或密码错误")
-                  }
+                      this.$store.commit('changeisAddHeader',{
+                            isAddHeader:true //重新将拦截器设置为需要拦截
+                        })
+                        this.$router.push('/operator');
+                        /*
+                        if(res.data.result == "is admin"){
+                            this.$router.push('/operator');
+                        }else{
+                            this.$router.push('/index');
+                        }
+                        */
+                 }else{
+                     this.$message.error("账号或密码错误")
+                 }
               })
           }else{
               this.$message.error("邮箱或密码不能为空")

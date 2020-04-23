@@ -16,11 +16,8 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import {Col,Row,Link} from 'element-ui'
 import LoginForm from './LoginForm'
 
-Vue.use(Col).use(Row).use(Link);
 export default {
   components:{
     LoginForm

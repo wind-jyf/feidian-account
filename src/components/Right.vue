@@ -12,26 +12,26 @@
          <span>关键词</span>
      </div>
      <div class="tag">
-         <el-button type="primary" plain>大前端</el-button>
-         <el-button type="primary" plain>Java</el-button>
-         <el-button type="primary" plain>iOS</el-button>
-         <el-button type="primary" plain>信息安全</el-button>
+         <el-button type="primary" plain @click="group('大前端')">大前端</el-button>
+         <el-button type="primary" plain @click="group('Java')">Java</el-button>
+         <el-button type="primary" plain @click="group('iOS')">iOS</el-button>
+         <el-button type="primary" plain @click="group('信息安全')">信息安全</el-button>
      </div>
      <div class="divider">
          <span class="divider-span">|</span>
          <span>成员档案</span>
      </div>
      <div class="member" >
-         <el-card  shadow="hover" v-for="(item,index) in Currentlist" :key="index" @click.native="person(index)">
+         <el-card  shadow="hover" v-for="(item,index) in Currentlist" :key="index" @click.native="person(item.email)">
              <div class="img">
                 <el-avatar shape="square" :size="90" :src="squareUrl"></el-avatar>
              </div>
-             <p>江羽凤</p>
-             <p>2367770337@qq.com</p>
-             <el-button type="text" class="red" :class="{'btn':btn}" @click="Delete">删除</el-button>
+             <p>{{item.firstName+item.lastName}}</p>
+             <p>{{item.email}}</p>
+             <el-button type="text" class="red" :class="{'btn':btn}" @click.stop="Delete">删除</el-button>
              <div :class="{'btn':btnAudit}">
-                 <el-link type="success" :underline="false" @click="agree">同意</el-link>
-                 <el-link type="warning" :underline="false" @click="disagree">拒绝</el-link>
+                 <el-link type="success" :underline="false" @click.stop="agree(item.email)">同意</el-link>
+                 <el-link type="warning" :underline="false" @click.stop="disagree(item.email)">拒绝</el-link>
              </div>
          </el-card>
      </div>
@@ -52,9 +52,7 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import {Input,Button,Card,Pagination} from 'element-ui'
-Vue.use(Input).use(Button).use(Card).use(Pagination)
+import {Sendagree,Senddisagree,SearchPerson,byGroup,deleteMessage} from '../network/api'
 export default {
   name: 'Right',
   props:{
@@ -70,27 +68,84 @@ export default {
       }
   },
   methods:{
-      person(){
-          this.$router.push({path:'/person',query:{email:'2367770337@qq.com'}});
+      person(email){
+          this.$router.push({path:'/person',query:{email:email}});
       },
       Delete(){
-          console.log("删除")
+          let data = {
+              email:'666@qq.com'
+          }
+          deleteMessage(data).then(res=>{
+              if(res.data.code == 1){
+                  this.$emit('updateMessage');
+                  this.$message.success('删除成功');
+              }else{
+                  this.$message.error('删除失败');
+              }
+          })
       },
-      agree(){
-          console.log("同意")
+      agree(email){
+          let data = {
+              email:email
+          }
+          Sendagree(data).then(res=>{
+              console.log(res);
+              if(res.data.status == 1){
+                  this.$emit('updateAudit');
+                  this.$message.success("处理成功");
+              }else{
+                  this.$message.error("处理失败");
+              }
+          })
       },
-      disagree(){
-          console.log("拒绝")
+      disagree(email){
+          let data = {
+              email:email
+          }
+          Senddisagree(data).then(res=>{
+              console.log(res);
+              if(res.data.status == 1){
+                  this.$emit('updateAudit');
+                  this.$message.success("处理成功")
+              }else{
+                  this.$message.error('处理失败')
+              }
+          })
       },
       change(num){
-          this.Currentlist = this.list.slice((num-1)*9,num*9);
+          this.Currentlist = this.list.slice((num-1)*9,num*9);//当切换到其他页时
       },
       Search(){
-          console.log(this.search);
+          let data = {
+              str:this.search
+          }
+          SearchPerson(data).then(res=>{
+              this.Currentlist = res.data.result;
+          })
+      },
+      group(name){
+          let data = {
+              group:name
+          }
+          byGroup(data).then(res=>{
+              this.Currentlist = res.data.result;
+          })
       }
   },
   created(){
-      this.Currentlist = this.list.slice(0,9);
+      console.log(this.list);
+      //console.log(this.$parent.list);
+      this.Currentlist = this.list.slice(0,9);//进行分页
+      console.log(this.Currentlist);
+  },
+  watch:{
+      list:{  //因为list是作为props传递的，当子组件拿到父组件传递来的list时，还为空，然后才执行的create，拿到的数据，所以需要添加watch
+          handler(newValue){
+              this.Currentlist = newValue;
+          },
+          deep:true,
+          immediate:true
+      }
   }
 }
 </script>
@@ -141,9 +196,10 @@ span{
     height: 100%;
     display: flex;
     flex-wrap: wrap;
-    justify-content:space-between
+    justify-content:flex-start
 }
 .el-card{
+    margin-right: 8%;
     width: 25%;
     height: 210px;
     margin-top: 5%;

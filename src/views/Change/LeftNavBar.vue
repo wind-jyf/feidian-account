@@ -20,9 +20,6 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import {Menu} from 'element-ui'
-Vue.use(Menu);
 export default {
   name: 'LeftNavBar',
   props: {
@@ -34,10 +31,9 @@ export default {
     }
   },
   methods:{
-
     Select(key){
       this.activeIndex = key;
-      this.onUpdate(this.activeIndex);
+      this.onUpdate(this.activeIndex);//触发父组件方法，并将当前导航所以作为参数传递
     }
   }
 }

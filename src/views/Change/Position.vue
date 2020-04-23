@@ -1,8 +1,8 @@
 <template>
   <div>
       <el-form label-position="left" :model="Position" label-width="100px">
-            <el-form-item  prop="job" label="工作单位">
-                <el-input v-model="Position.job"></el-input>
+            <el-form-item  prop="company" label="工作单位">
+                <el-input v-model="Position.company"></el-input>
             </el-form-item>
             <el-form-item  prop="school" label='就读高校'>
                 <el-input v-model="Position.school"></el-input>
@@ -17,7 +17,7 @@ export default {
   data(){
       return{
           Position:{
-              job:'',
+              company:'',
               school:''
           }
       }

@@ -21,10 +21,7 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import {container,Link} from 'element-ui'
 import RegisterForm from './RegisterForm'
-Vue.use(container).use(Link)
 export default {
   data(){
     return{

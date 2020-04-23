@@ -11,8 +11,14 @@
             <el-form-item  prop="confirmPassword" label=' '>
                 <el-input v-model="RegisterMessage.confirmPassword" placeholder="确认密码" show-password></el-input>
             </el-form-item>
-            <el-form-item  prop="name" label=" ">
-                <el-input v-model="RegisterMessage.name" placeholder="姓名" size="large"></el-input>
+            <el-form-item  prop="firstname" label=" ">
+                <el-input v-model="RegisterMessage.firstname" placeholder="姓" size="large"></el-input>
+            </el-form-item>
+            <el-form-item  prop="lastname" label=" ">
+                <el-input v-model="RegisterMessage.lastname" placeholder="名字" size="large"></el-input>
+            </el-form-item>
+            <el-form-item  prop="spell" label=" ">
+                <el-input v-model="RegisterMessage.spell" placeholder="姓名全拼" size="large"></el-input>
             </el-form-item>
             <el-form-item  prop="id" label=" ">
                 <el-input v-model="RegisterMessage.id" placeholder="学号" size="large"></el-input>
@@ -34,9 +40,6 @@
 </template>
 
 <script>
-import Vue from 'vue';
-import {Form,FormItem,Input,Button,Select} from 'element-ui';
-Vue.use(Form).use(FormItem).use(Input).use(Button).use(Select)
 import {sendRegister} from '../../network/api'
 export default {
   data(){
@@ -45,7 +48,9 @@ export default {
                 email:'',
                 password:'',
                 confirmPassword:'',
-                name:'',
+                firstname:'',
+                lastname:'',
+                spell:'',
                 id:'',
                 group:''
             },
@@ -75,8 +80,14 @@ export default {
               confirmPassword:[
                   { required: true, message: '请输入确认密码', trigger: 'blur' }
               ],
-              name:[
-                  { required: true, message: '请输入姓名', trigger: 'blur' }
+              firstname:[
+                  { required: true, message: '请输入姓', trigger: 'blur' }
+              ],
+              lastname:[
+                  { required: true, message: '请输入名', trigger: 'blur' }
+              ],
+              spell:[
+                  { required: true, message: '请输入全拼', trigger: 'blur' }
               ],
               id:[
                   { required: true, message: '请输入学号', trigger: 'blur' }
@@ -90,13 +101,25 @@ export default {
   },
   methods:{
       submit(){
-          if(this.RegisterMessage.email!=''&&this.RegisterMessage.password!=''&&this.RegisterMessage.confirmPassword!=''&&this.RegisterMessage.name!=''&&this.RegisterMessage.id!=''&&this.RegisterMessage.group!=''&&this.RegisterMessage.password==this.RegisterMessage.confirmPassword){
+          this.$store.commit('changeisAddHeader',{
+              isAddHeader:false   //设置为拦截器不需要拦截
+          })
+          if(this.RegisterMessage.email!=''&&this.RegisterMessage.password!=''&&this.RegisterMessage.confirmPassword!=''&&this.RegisterMessage.firstname!=''&&this.RegisterMessage.lastname!=''&&this.RegisterMessage.spell!=''&&this.RegisterMessage.id!=''&&this.RegisterMessage.group!=''&&this.RegisterMessage.password==this.RegisterMessage.confirmPassword){
               let data = this.RegisterMessage;
               console.log(data);
-              sendRegister(data).then(res=>{
+              sendRegister(data).then(res=>{  //想后台发送注册请求
                   console.log(res);
-                  this.$message.success('注册成功');
-                  this.$router.push('/login');
+                  if(res.data.status == 1){
+                      this.$message.success('注册成功');
+                      this.$router.push('/login');
+                  }
+                  else{
+                      this.$message.error('注册失败');
+                  }
+                  this.$store.commit('changeisAddHeader',{
+                        isAddHeader:true
+                  })
+                  
               })
           }else{
               this.$message.error('有信息填写错误');

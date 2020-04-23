@@ -2,28 +2,36 @@
   <div class="index">
     <el-container>
       <el-aside width="450px">
-        <left :src="src" center="管理员的中心" :btn="btn" :back="!btn" :centerbtn="btn"/>
+        <left :src="src" center="管理员的中心"  :btn="btn" :back="!btn" :centerbtn="btn"/>
       </el-aside>
       <el-main>
-        <right :btn="btn" :list="list"/>
+        <right :btn="btn" :list="list" :btnAudit="!btn"  :updateMessage="updateMessage"/>
       </el-main>
     </el-container>
   </div>
 </template>
 
 <script>
-import Vue from 'vue'
-import {container} from 'element-ui'
-Vue.use(container)
 import Left from '../../components/Left'
 import Right from '../../components/Right'
+import {GetAll} from '../../network/api'
 export default {
   data(){
     return{
       src:require("../../assets/tianyi.jpg"),
       btn:false,
-      list:[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+      list:[]
     }
+  },
+  methods:{
+    updateMessage(){
+      GetAll().then(res=>{ //获得所有需要审核的成员
+      this.list = res.data.result;
+    })
+    }
+  },
+  created(){
+    this.updateMessage();
   },
   components:{
     Left,
